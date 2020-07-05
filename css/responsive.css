@@ -1,0 +1,244 @@
+
+/*BREAKPOINTS
+==========================================================================================*/
+/* @media(max-width: 529.9px){
+
+    .about .skills,
+    .about .center{
+        max-width: 400px;
+    }
+
+}
+
+
+@media(max-width: 629.9px){
+
+    .about .skills,
+    .about .center{
+        max-width: 500px;
+    }
+
+} */
+
+
+@media(max-width: 959.9px){
+    #nav-toggle, 
+    .header-redes,
+    .img-about,
+    .skills{
+        display: block;
+    }
+
+    .header-redes,
+    .about .skills{
+        float: none;
+    }
+    
+    .about .img-about{
+        max-width: 100%;
+    }
+
+    .center{
+        text-align: center;
+    }
+
+    
+    /*header*/
+    /* .header{
+        height: 58px;
+    }  */
+
+    .header-logo{
+        max-width: 180px;
+        width: 60%;
+        padding: 3px 0;
+    }
+
+    .header-logo a img{
+        height: 75px;
+    }
+
+    /*menu*/
+    .header-collapse{
+        overflow-y: auto;
+        position: fixed;
+        background: rgba(16, 16, 16, .95);
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
+        padding: 15px;
+        top: -100%;
+        left: 0;
+        transition: top .4s ease;
+        -webkit-transition: top .4s ease;
+    }
+
+    .header-collapse.active {
+        top: 0%;
+        
+    }
+
+    .header-nav{
+        padding: 25px 0;
+        float: none;
+    }
+
+    .header-nav ul li{
+        width: 100%;
+        text-align: center;
+        padding: 5px 0;
+    }
+
+    .header-nav ul li a{
+        color: #ffffff;
+        font-size: 1.4rem;
+    }
+
+    .header-search{
+        max-width: 300px;
+        width: 100%;
+        margin: 0 auto;
+        float: none;
+    }
+
+    .header-search input{
+        padding: 15px;
+    }
+
+}
+
+
+/*MIN-WIDTH*/
+@media(min-width: 360px){
+    .about .skills,
+    .about .center{
+        max-width: 300px;
+    }
+
+    .content .container{
+        display: block;
+        width: auto;
+    }
+
+    
+    .container .card{
+        margin-bottom: 30px;
+    }
+}
+
+
+@media(min-width: 530px){
+
+    .about .skills,
+    .about .center,
+    .skill{
+        max-width: 100%;
+        width: auto;
+    }
+    .skill{
+        width: 100%;
+    }
+
+}
+
+
+@media(min-width: 630px){
+
+    /* .about .skills,
+    .about .center{
+        max-width: 500px;
+    } */
+    .content .container{
+        display: flex;
+        width: 100%;
+    }
+}
+
+
+@media(min-width: 960px){
+    @keyframes animaHeader {
+        0%{
+            opacity: 0;
+            transform: translateY(-100%);
+            -webkit-transform: translateY(-100%);
+        }
+        100%{
+            opacity: 1;
+            transform: translateY(0%);
+            -webkit-transform: translateY(0%);
+        }
+    }
+    .fixed{
+        position: fixed;
+        background: #101010;
+        /* z-index: 20; */
+        z-index: 10000;
+        animation: animaHeader .7s ease-in-out .4s backwards;
+        -webkit-animation: animaHeader .7s ease-in-out .4s backwards;
+    }
+    .header-nav{
+        margin-left: 2%;
+    }
+    .header-nav ul li a.active:before{
+        background: #f47933;
+        content: "";
+        position: absolute;
+        height: 6px;
+        width: 100%;
+        top: -31px;
+        left: 0;
+    }
+
+    .about .img-about,
+    .about .skills{
+        max-width: 600px;
+        width: 400px;
+    }
+
+}
+
+@media(min-width: 1024px){
+    .header-nav ul li{
+        margin: 0 6px;
+    }
+    .about .img-about,
+    .about .skills{
+        max-width: 700px;
+        width: 500px;
+    }
+}
+
+@media(min-width: 1144px){
+    .header-logo{
+        width: auto;
+    }
+    .header-nav ul li a{
+        font-size: 1rem;
+    }
+
+}
+
+
+
+@media(min-width: 1280px){
+    .header-nav ul li{
+        margin: 0 8px;
+    }
+    .header-search{
+        width: 260px;
+    }
+    .about .img-about,
+    .about .skills{
+        max-width: 900px;
+        width: 550px;
+    }
+    .about .skills{
+        float: right;
+        right: 0;
+    }
+
+    .about .img-about{
+        float: left;
+        left: 0;
+    }
+}

@@ -1,0 +1,226 @@
+
+/*HEADER
+================================================================================================*/
+.header{
+    border-top: 6px solid var(--primary-color);/*#2c3e50*/
+}
+
+.header-logo{
+    width: 180px;
+    padding: 0;
+    float: left;
+}
+
+.header-logo a img{
+    width: 235px;
+    height: 75px;
+}
+
+/*header menu*/
+.header-nav{
+    float: left;
+    padding: 25px 0;
+}
+
+.header-nav ul li{
+    display: inline-block;
+    margin: 0 3px;
+    position: relative;
+}
+
+.header-nav ul li a{
+    color: var(--primary-color);/*#2c3e50*/
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.header-nav ul li a.active{
+    color: var(--secondary-color);
+}
+
+/* nav-toggle
+======================================================================================*/
+#nav-toggle{
+    border-bottom-left-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    position: fixed;
+    z-index: 15000;
+    display: none;
+    background: var(--primary-color);
+    padding: 15px;
+    top: 0;
+    right: 0;
+    transition: all .4s ease;
+    -webkit-transition: all .4s ease;
+}
+
+#nav-toggle span{
+    border-radius: 1px;
+    height: 2px;
+    width: 30px;
+    display: block;
+    background: #ffffff;
+    -webkit-border-radius: 1px;
+    transition: all .4s ease;
+    -webkit-transition: all .4s ease;
+    transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0,0,0);
+}
+
+#nav-toggle span:nth-child(2){
+    margin: 6px 0;
+}
+
+#nav-toggle.active span:nth-child(1){
+    transform: rotate(45deg) translate3d(6px,6px,0);
+    -webkit-transform: rotate(45deg) translate3d(6px,6px,0);
+}
+
+#nav-toggle.active span:nth-child(2){
+    opacity: 0;
+}
+
+#nav-toggle.active span:nth-child(3){
+    transform: rotate(-45deg) translate3d(6px,-5px,0);
+    -webkit-transform: rotate(-45deg) translate3d(6px,-5px,0);
+}
+
+/*search
+==============================================================================================================================*/
+.header-search{
+    position: relative;
+    float: right;
+    margin: 18px 0;
+}
+/*COR DO PLACEHOLDER DO IMPUT PARA DIFERENTES NAVEGADORES
+=============================================================================================================================*/
+.header-search input::-webkit-input-placeholder{
+/*chrome/ opera/safari*/
+    color: #fff;    
+}
+.header-search input:-moz-placeholder{
+    /*mozilla firefox 4 to 18*/
+    color: #fff;
+    opacity: 1;
+}
+.header-search input::-moz-placeholder{
+    /*firefox 19+*/
+    color: #fff;
+    opacity: 1;
+}
+.header-search input:-ms-input-placeholder{
+    /*IE 10+*/
+    color: #fff;
+}
+.header-search input::-ms-input-placeholder{
+    /*Microsoft Edge*/
+    color: #fff;
+}
+.header-search input::placeholder{
+    /*Browsers modernos*/
+    color: #fff;
+}
+
+.header-search input{
+    width: 100%;
+    color: #fff;
+    text-transform: uppercase;
+    background: var(--primary-color);
+    /*margin: 20px 0;*/
+    padding: 10px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+}
+
+.header-search button{
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    color: #fff;
+    font-size: 1.5rem;
+    background: transparent;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+
+.header-nav ul li a:hover{
+    color: var(--secondary-color);
+}
+
+/*redes header
+===============================================================================================*/
+.header-redes{
+    position: relative;
+    margin: 20px 0;
+    float: right;
+    text-align: center;
+    /*display: none;*/
+}
+
+.header-redes a{
+    color: #fff;
+    font-size: 2rem;
+    margin: 0 10px;
+}
+
+/*imagem header
+==================================================================================================*/
+/* #img-topo{
+    float: left;
+    left: 0;
+    position: absolute;
+    max-height: 87vh;
+    bottom: 0;
+} */
+
+#img-topo{
+    top: 0;
+    height: 100vh;
+}
+
+#img-topo #img{
+    float: left;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    bottom: 0;
+    background-image: url('../imagens/back-gabriel.svg');
+    background-repeat: no-repeat;
+    background-size:100%;
+    background-position: center center;
+    bottom: 0;
+    color: black;
+    left: 0;
+    overflow: auto;
+    /* padding: 3em; */
+    right: 0;
+    text-align: center;
+    top: 5;
+    background-size: cover;
+}
+
+#img-topo #img .caption{
+    position: absolute;
+    max-width: 600px;
+    top: 50%;
+    left: 10%;
+    transform: translate(-10%, -50%);
+    -webkit-transform: translate(-10%, -50%);
+    /*background: rgba(244, 121, 51, .7);*/
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    color: #fff;
+    padding: 10px;
+    text-align: justify;
+    font-size: 1.25rem;
+}
+
+#img-topo #img .caption #name-topo{
+    font-size: 4rem;
+}
+
+#img-topo #img .caption #title-topo{
+    font-size: 2rem;
+    color: darkgray;
+}
