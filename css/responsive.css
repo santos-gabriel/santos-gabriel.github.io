@@ -137,6 +137,9 @@
     .about p{
         font-size: 0.9rem;
     }
+    .img-about p{
+        margin-bottom: -12px;
+    }
 
 }
 
