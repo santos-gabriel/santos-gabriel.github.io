@@ -98,3 +98,7 @@
     z-index: 1;
 }
 
+.text-conquest h4 {
+    padding-top: 0.5rem;
+    color: #777;
+}
