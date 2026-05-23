@@ -252,7 +252,7 @@
 
   <div id="days-container"></div>
 
-  <div class="rt-footer">
+  <!-- <div class="rt-footer">
     <div>
       <div class="rt-footer-label">Gasto total estimado (x2)</div>
       <div class="rt-footer-val">R$ 4.010</div>
@@ -261,11 +261,11 @@
       <div class="rt-footer-label">Reservados</div>
       <div class="rt-footer-val" style="font-size:13px;font-weight:400;">Olivas · 1835 · St Gallen · Cara de Mau · Fumaça</div>
     </div>
-  </div>
+  </div> -->
 </div>
 </body>
 <script>
-const SENHA = "serragaucha";
+const SENHA = "20260726@bocaaberta";
 let unlocked = false;
 
 function tryUnlock() {
@@ -306,7 +306,7 @@ function hintUnlock(el) {
 const RESTAURANTES = [
   "Carne e Osso", "Irlandês", "IL Piacere", "O Maquinista",
   "St Gallen", "Quintanilha", "Cara de Mau", "1835 Carne e Brasa",
-  "Chama de Fogo", "Récolte", "Olivas"
+  "Chama de Fogo", "Récolte"
 ];
 
 function protectEventName(name) {
@@ -319,8 +319,8 @@ function protectEventName(name) {
   return result;
 }
 
-const pillLabels = { meal:"Refeição", primeQr:"Prime / QR", reserved:"Reservado", free:"Sem reserva" };
-const pillClasses = { meal:"pill-meal", primeQr:"pill-prime-qr", reserved:"pill-reserved", free:"pill-free" };
+const pillLabels = { meal:"Refeição", primeQr:"Prime / QR", reserved:"Reservado", free:"Não faz reserva", reserve: "Reservar" };
+const pillClasses = { meal:"pill-meal", primeQr:"pill-prime-qr", reserved:"pill-reserved", free:"pill-free", reserve:"pill-prime-qr" };
 
 const days = [
   {
@@ -330,46 +330,46 @@ const days = [
       { time:"15:35", name:"Chegada em POA / Carro / Estrada", pills:[], dot:"dot-lunch", subs:[] },
       { time:"17:20", name:"Chegada a Zandaam", pills:[], dot:"dot-activity", subs:[] },
       { time:"18:20", name:"Chegada ao Hotel / Check-in", pills:[], dot:"dot-afternoon", subs:[] },
-      { time:"20:00", name:"Jantar em Carne e Osso", pills:["meal", "primeQr"], dot:"dot-dinner", subs:[] },
+      { time:"20:00", name:"Jantar em Carne e Osso", pills:["meal", "free"], dot:"dot-dinner", subs:[] },
     ]
   },
   {
     n:2, abbr:"TER", cls:"day2", name:"Canela — Café, Passeio & Gastronomia",
     events:[
-      { time:"09:00", name:"Café da manhã no Hotel", pills:["meal"], dot:"dot-morning", subs:[] },
+      { time:"09:00", name:"Café da manhã no Hotel", pills:[], dot:"dot-morning", subs:[] },
       { time:"10:00", name:"Conhecer Canela — centro histórico", pills:[], dot:"dot-activity",
         subs:["Parque do Pinheiro Grosso","Catedral de Pedra","Largo da Fama","Praça João Corrêa","Rua Coberta"] },
       { time:"12:00", name:"Almoço no Irlandês", pills:["meal","free"], dot:"dot-lunch", subs:[] },
-      { time:"14:30", name:"Olivas — experiência reservada", pills:["reserved","primeQr"], dot:"dot-afternoon", subs:[] },
-      { time:"21:00", name:"Jantar em IL Piacere", pills:["meal","free"], dot:"dot-dinner", subs:[] },
+      { time:"14:30", name:"Olivas de Gramado", pills:["reserved","primeQr"], dot:"dot-afternoon", subs:[] },
+      { time:"21:00", name:"Jantar em IL Piacere", pills:["meal","reserve"], dot:"dot-dinner", subs:[] },
     ]
   },
   {
     n:3, abbr:"QUA", cls:"day3", name:"Vinícola, Space Adventure & Bondinho",
     events:[
-      { time:"08:30", name:"Café da manhã no Hotel", pills:["meal"], dot:"dot-morning", subs:[] },
+      { time:"08:30", name:"Café da manhã no Hotel", pills:[], dot:"dot-morning", subs:[] },
       { time:"09:30", name:"Vinícola Jolimont — tour & degustação", pills:["primeQr"], dot:"dot-morning", subs:[] },
       { time:"12:00", name:"Almoço em O Maquinista", pills:["meal","free"], dot:"dot-lunch", subs:[] },
       { time:"14:30", name:"Space Adventure", pills:["primeQr"], dot:"dot-activity", subs:[] },
       { time:"16:30", name:"Bondinho da Cascata", pills:[], dot:"dot-afternoon", subs:[] },
-      { time:"20:00", name:"Jantar em St Gallen", pills:["meal","reserved"], dot:"dot-dinner", subs:[] },
+      { time:"21:30", name:"Jantar em St Gallen", pills:["meal","reserved"], dot:"dot-dinner", subs:[] },
     ]
   },
   {
     n:4, abbr:"QUI", cls:"day4", name:"Gramado — Ensaio Fotográfico & Gastronomia",
     events:[
-      { time:"08:30", name:"Café da manhã no Hotel", pills:["meal"], dot:"dot-morning", subs:[] },
+      { time:"08:30", name:"Café da manhã no Hotel", pills:[], dot:"dot-morning", subs:[] },
       { time:"09:30", name:"Ensaio fotográfico — Gramado", pills:["reserved"], dot:"dot-morning", subs:[] },
-      { time:"12:30", name:"Almoço em Quintanilha", pills:["meal","primeQr"], dot:"dot-lunch", subs:[] },
+      { time:"12:30", name:"Almoço em Quintanilha", pills:["meal","primeQr", "reserve"], dot:"dot-lunch", subs:[] },
       { time:"14:00", name:"Cristais de Gramado", pills:["primeQr"], dot:"dot-activity", subs:[] },
-      { time:"20:00", name:"Jantar em Cara de Mau", pills:["meal","reserved","primeQr"], dot:"dot-dinner", subs:[] },
+      { time:"21:30", name:"Jantar em Cara de Mau", pills:["meal","reserved","primeQr"], dot:"dot-dinner", subs:[] },
     ]
   },
   {
     n:5, abbr:"SEX", cls:"day5", name:"Cascata, Pôr do Sol & Cinema",
     events:[
-      { time:"09:30", name:"Café da manhã no Hotel", pills:["meal"], dot:"dot-morning", subs:[] },
-      { time:"12:00", name:"Almoço em 1835 Carne e Brasa", pills:["meal"], dot:"dot-lunch", subs:[] },
+      { time:"09:30", name:"Café da manhã no Hotel", pills:[], dot:"dot-morning", subs:[] },
+      { time:"12:00", name:"Almoço em 1835 Carne e Brasa", pills:["meal", "reserved"], dot:"dot-lunch", subs:[] },
       { time:"14:30", name:"Conhecer Gramado — centro & lojas", pills:[], dot:"dot-afternoon",
         subs:["Rua Coberta de Gramado","Lago Negro","Mini Mundo","Hollywood Dream Cars","Rua Garibaldi"] },      
       { time:"21:00", name:"Assistir Homem-Aranha", pills:[], dot:"dot-activity", subs:[] },
@@ -381,7 +381,7 @@ const days = [
       { time:"06:00", name:"Maria Fumaça — passeio reservado", pills:["reserved"], dot:"dot-activity", subs:[] },
       { time:"12:30", name:"Almoço - passeio Maria Fumaça", pills:["meal"], dot:"dot-lunch", subs:[] },
       { time:"19:30", name:"Chegada Hotel", pills:[], dot:"dot-afternoon", subs:[] },
-      { time:"21:00", name:"Jantar em Chama de Fogo", pills:["meal"], dot:"dot-dinner", subs:[] },
+      { time:"21:00", name:"Jantar em Chama de Fogo", pills:["meal", "reserve"], dot:"dot-dinner", subs:[] },
     ]
   },
   {
@@ -389,7 +389,7 @@ const days = [
     events:[
       { time:"09:00", name:"Manhã tranquila — preparar malas", pills:[], dot:"dot-morning", subs:[] },
       { time:"09:30", name:"Café da manhã no Hotel", pills:["meal"], dot:"dot-morning", subs:[] },
-      { time:"12:00", name:"Almoço em Récolte", pills:["meal","primeQr"], dot:"dot-lunch", subs:[] },
+      { time:"12:00", name:"Almoço em Récolte", pills:["meal", "free", "primeQr"], dot:"dot-lunch", subs:[] },
       { time:"14:30", name:"Lanche de despedida", pills:[], dot:"dot-afternoon", subs:[] },
       { time:"15:00", name:"Transito ao aeroporto", pills:[], dot:"dot-activity", subs:[] },
       { time:"18:00", name:"Chegada ao aeroporto POA (embarque 18:30)", pills:["meal"], dot:"dot-dinner", subs:[] },
