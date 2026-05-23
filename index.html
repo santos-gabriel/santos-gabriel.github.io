@@ -1,4 +1,5 @@
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
   
@@ -11,9 +12,11 @@
     --color-border-tertiary: #eeeeee;
   }
 
-  body { background: #777777; }
+  *, *::before, *::after { box-sizing: border-box; }
 
-  .rt-wrap { font-family: 'Lato', sans-serif; color: var(--color-text-primary); max-width: 680px; margin: 0 auto; }
+  body { background: #777777; margin: 0; padding: 12px; }
+
+  .rt-wrap { font-family: 'Lato', sans-serif; color: var(--color-text-primary); max-width: 680px; margin: 0 auto; width: 100%; }
 
   .rt-header {
     background: #1a2e1a; border-radius: 16px; padding: 2.5rem 2rem 2rem;
@@ -226,6 +229,36 @@
     .day5 .rt-day-badge { background:#3d0015; } .day5 .day-num,.day5 .day-abbr { color:#f48fb1; }
     .day6 .rt-day-badge { background:#0a0f3d; } .day6 .day-num,.day6 .day-abbr { color:#9fa8da; }
     .day7 .rt-day-badge { background:#152800; } .day7 .day-num,.day7 .day-abbr { color:#aed581; }
+  }
+  @media (max-width: 520px) {
+    body { padding: 8px; background: #e8e8e8; }
+
+    .rt-header { padding: 1.4rem 1.1rem 1.1rem; border-radius: 12px; margin-bottom: 0.9rem; }
+    .rt-header-title { font-size: 26px; }
+    .rt-header-sub { font-size: 12px; }
+    .rt-header-tags { gap: 5px; margin-top: 0.8rem; }
+    .rt-tag { font-size: 10px; padding: 3px 9px; }
+
+    .rt-lock-bar { flex-wrap: wrap; gap: 6px; padding: 0.5rem 0.75rem; }
+    .rt-lock-bar input { width: 100px; font-size: 14px; }
+
+    .rt-day-card { border-radius: 11px; margin-bottom: 0.65rem; }
+    .rt-day-header { padding: 0.8rem 0.9rem; gap: 10px; }
+    .rt-day-badge { width: 38px; height: 38px; border-radius: 8px; }
+    .rt-day-badge .day-num { font-size: 17px; }
+    .rt-day-name { font-size: 14px; }
+    .rt-day-count { font-size: 11px; }
+
+    .rt-events { padding: 0.5rem 0.9rem 0.7rem; }
+    .rt-time-col { min-width: 40px; }
+    .rt-connector-time-col { min-width: 40px; }
+    .rt-time { font-size: 11px; }
+    .rt-event-name { font-size: 12.5px; }
+    .rt-pill { font-size: 9px; padding: 2px 6px; }
+    .rt-connector-badge { font-size: 9px; padding: 2px 5px; }
+
+    .rt-footer { flex-direction: column; align-items: flex-start; gap: 8px; padding: 0.8rem 0.9rem; }
+    .rt-footer > div:last-child { text-align: left !important; }
   }
 </style>
 </head>
