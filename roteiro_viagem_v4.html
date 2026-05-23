@@ -1,0 +1,516 @@
+<head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+  
+  :root {
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f5f5f5;
+    --color-text-primary: #333333;
+    --color-text-secondary: #777777;
+    --color-border-secondary: #dddddd;
+    --color-border-tertiary: #eeeeee;
+  }
+
+  body { background: #777777; }
+
+  .rt-wrap { font-family: 'Lato', sans-serif; color: var(--color-text-primary); max-width: 680px; margin: 0 auto; }
+
+  .rt-header {
+    background: #1a2e1a; border-radius: 16px; padding: 2.5rem 2rem 2rem;
+    margin-bottom: 1.5rem; position: relative; overflow: hidden;
+  }
+  .rt-header::before { content:''; position:absolute; top:-30px; right:-30px; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,0.04); }
+  .rt-header::after { content:''; position:absolute; bottom:-50px; left:40px; width:250px; height:250px; border-radius:50%; background:rgba(255,255,255,0.03); }
+  .rt-header-label { font-size:11px; font-weight:700; letter-spacing:3px; color:#a8c5a0; text-transform:uppercase; margin-bottom:0.5rem; }
+  .rt-header-title { font-family:'Playfair Display',serif; font-size:36px; font-weight:700; color:#fff; margin:0 0 0.25rem; line-height:1.2; }
+  .rt-header-sub { font-size:14px; color:#8db88d; font-weight:300; letter-spacing:0.5px; }
+  .rt-header-tags { display:flex; gap:8px; margin-top:1.25rem; flex-wrap:wrap; }
+  .rt-tag { background:rgba(255,255,255,0.1); color:#c8dfc8; font-size:11px; padding:4px 12px; border-radius:20px; font-weight:400; letter-spacing:0.5px; }
+
+  .rt-day-card { background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:14px; margin-bottom:1rem; overflow:hidden; }
+  .rt-day-header { display:flex; align-items:center; gap:14px; padding:1rem 1.25rem 0.85rem; border-bottom:0.5px solid var(--color-border-tertiary); cursor:pointer; user-select:none; }
+  .rt-day-badge { width:44px; height:44px; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; flex-shrink:0; }
+  .rt-day-badge .day-num { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; line-height:1; }
+  .rt-day-badge .day-abbr { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-top:1px; }
+  .rt-day-info { flex:1; }
+  .rt-day-name { font-family:'Playfair Display',serif; font-size:16px; font-weight:600; margin:0 0 2px; }
+  .rt-day-count { font-size:12px; color:var(--color-text-secondary); font-weight:300; }
+  .rt-chevron { font-size:18px; color:var(--color-text-secondary); transition:transform 0.2s; display:inline-block; }
+  .rt-chevron.open { transform:rotate(90deg); }
+
+  .rt-events { padding:0.75rem 1.25rem 0.85rem; display:none; }
+  .rt-events.open { display:block; }
+
+  /* Each event row */
+  .rt-event { display:flex; gap:12px; align-items:flex-start; }
+
+  /* Connector between events */
+  .rt-connector {
+    display:flex; gap:12px; align-items:center;
+    padding: 0 0;
+  }
+
+  .rt-time-col { min-width:52px; text-align:right; flex-shrink:0; }
+  .rt-time { font-size:12px; font-weight:700; color:var(--color-text-secondary); letter-spacing:0.3px; }
+
+  .rt-connector-time-col { min-width:52px; flex-shrink:0; }
+
+  /* Dot + line column */
+  .rt-dot-col { display:flex; flex-direction:column; align-items:center; flex-shrink:0; padding-top:3px; }
+  .rt-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+  /* Connector vertical section */
+  .rt-connector-dot-col {
+    display:flex; flex-direction:column; align-items:center; flex-shrink:0;
+    width:10px;
+  }
+  .rt-connector-line {
+    width:1.5px; height:22px; background: var(--color-border-secondary);
+  }
+  .rt-connector-badge {
+    font-size:9px; font-weight:700; letter-spacing:0.5px;
+    color: var(--color-text-secondary);
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 8px;
+    padding: 2px 6px;
+    white-space: nowrap;
+    line-height:1.4;
+  }
+  .rt-connector-line-bottom {
+    width:1.5px; height:22px; background: var(--color-border-secondary);
+  }
+  .rt-connector-mid {
+    display:flex; align-items:center; gap:8px; flex:1; padding: 2px 0;
+  }
+
+  .rt-event-info { flex:1; padding-bottom: 4px; }
+  .rt-event-name { font-size:13.5px; font-weight:400; margin:0 0 3px; color:var(--color-text-primary); line-height:1.35; }
+  .rt-event-meta { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:4px; }
+
+  .rt-pill { font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; letter-spacing:0.5px; }
+  .pill-meal { background:#fff0e0; color:#a05500; }
+  .pill-prime-qr { background:#e6f0ff; color:#1a4fa0; }
+  .pill-reserved { background:#f0f9ef; color:#2a6a20; }
+  .pill-free { background:#f5f0ff; color:#5a2da0; }
+
+  .rt-subitems { margin-top:6px; padding-left:4px; }
+  .rt-subitem-toggle { font-size:11px; color:var(--color-text-secondary); cursor:pointer; display:flex; align-items:center; gap:4px; margin-bottom:4px; user-select:none; }
+  .rt-subitem-toggle:hover { color:var(--color-text-primary); }
+  .rt-subitem-toggle .sub-chevron { font-size:10px; display:inline-block; transition:transform 0.15s; }
+  .rt-subitem-toggle .sub-chevron.open { transform:rotate(90deg); }
+  .rt-subitem-list { display:none; padding:4px 0 2px 12px; border-left:2px solid var(--color-border-tertiary); }
+  .rt-subitem-list.open { display:block; }
+  .rt-subitem { font-size:12px; color:var(--color-text-secondary); padding:3px 0; display:flex; align-items:center; gap:6px; }
+  .rt-subitem::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--color-border-secondary); flex-shrink:0; }
+
+  .rt-footer { background:var(--color-background-secondary); border-radius:12px; padding:1rem 1.25rem; display:flex; justify-content:space-between; align-items:center; border:0.5px solid var(--color-border-tertiary); }
+  .rt-footer-label { font-size:12px; color:var(--color-text-secondary); }
+  .rt-footer-val { font-size:18px; font-weight:700; font-family:'Playfair Display',serif; }
+
+  .day1 .rt-day-badge { background:#e8f5e9; } .day1 .day-num,.day1 .day-abbr { color:#2a6a20; }
+  .day2 .rt-day-badge { background:#e3f2fd; } .day2 .day-num,.day2 .day-abbr { color:#1565c0; }
+  .day3 .rt-day-badge { background:#fff3e0; } .day3 .day-num,.day3 .day-abbr { color:#e65100; }
+  .day4 .rt-day-badge { background:#f3e5f5; } .day4 .day-num,.day4 .day-abbr { color:#6a1b9a; }
+  .day5 .rt-day-badge { background:#fce4ec; } .day5 .day-num,.day5 .day-abbr { color:#880e4f; }
+  .day6 .rt-day-badge { background:#e8eaf6; } .day6 .day-num,.day6 .day-abbr { color:#1a237e; }
+  .day7 .rt-day-badge { background:#f1f8e9; } .day7 .day-num,.day7 .day-abbr { color:#33691e; }
+
+  .dot-morning { background:#64b5f6; } .dot-lunch { background:#ffa726; }
+  .dot-afternoon { background:#81c784; } .dot-dinner { background:#f06292; }
+  .dot-activity { background:#b39ddb; }
+
+  .rt-restaurant {
+    display: inline;
+    position: relative;
+  }
+  .rt-restaurant.locked .rt-rest-name {
+    display: none;
+  }
+  .rt-restaurant.locked .rt-rest-hidden {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #f0f0f0;
+    border: 1px dashed #bbb;
+    border-radius: 6px;
+    padding: 1px 7px;
+    font-size: 12px;
+    color: #999;
+    cursor: pointer;
+    user-select: none;
+    letter-spacing: 2px;
+    transition: background 0.15s;
+  }
+  .rt-restaurant.locked .rt-rest-hidden:hover {
+    background: #e4e4e4;
+    color: #666;
+  }
+  .rt-restaurant.unlocked .rt-rest-name {
+    display: inline;
+    color: #1a6a3a;
+    font-weight: 600;
+  }
+  .rt-restaurant.unlocked .rt-rest-hidden {
+    display: none;
+  }
+
+  .rt-lock-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fffbe6;
+    border: 0.5px solid #f0d060;
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 12px;
+    color: #7a6000;
+  }
+  .rt-lock-bar.open-state {
+    background: #f0faf0;
+    border-color: #6abf6a;
+    color: #2a6a20;
+  }
+  .rt-lock-bar input {
+    border: 0.5px solid #ddd;
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 12px;
+    outline: none;
+    width: 120px;
+    background: #fff;
+    color: #333;
+  }
+  .rt-lock-bar button {
+    background: #1a2e1a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .rt-lock-bar button:hover { background: #2a4a2a; }
+  .rt-lock-err { color: #c0392b; font-size: 11px; margin-left: 4px; }
+
+  @media (prefers-color-scheme: dark) {
+    .rt-restaurant.locked .rt-rest-hidden {
+      background: #2a2a2a;
+      border-color: #555;
+      color: #777;
+    }
+    .rt-restaurant.locked .rt-rest-hidden:hover {
+      background: #333;
+      color: #aaa;
+    }
+    .rt-restaurant.unlocked .rt-rest-name { color: #7ed97a; }
+    .rt-lock-bar { background: #2a2500; border-color: #6a5500; color: #d4a800; }
+    .rt-lock-bar.open-state { background: #0a2a08; border-color: #3a8a3a; color: #7ed97a; }
+    .rt-lock-bar input { background: #1a1a1a; border-color: #444; color: #eee; }
+    .rt-lock-bar button { background: #2a4a2a; }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .pill-meal { background:#3d2000; color:#ffc870; }
+    .pill-prime-qr { background:#001a4d; color:#7fb3ff; }
+    .pill-reserved { background:#0a2a08; color:#7ed97a; }
+    .pill-free { background:#1a0a3d; color:#c4a0ff; }
+    .rt-header { background:#0f1a0f; }
+    .day1 .rt-day-badge { background:#0a2a08; } .day1 .day-num,.day1 .day-abbr { color:#7ed97a; }
+    .day2 .rt-day-badge { background:#001a3d; } .day2 .day-num,.day2 .day-abbr { color:#7fb3ff; }
+    .day3 .rt-day-badge { background:#3d1a00; } .day3 .day-num,.day3 .day-abbr { color:#ffb74d; }
+    .day4 .rt-day-badge { background:#2a0a3d; } .day4 .day-num,.day4 .day-abbr { color:#ce93d8; }
+    .day5 .rt-day-badge { background:#3d0015; } .day5 .day-num,.day5 .day-abbr { color:#f48fb1; }
+    .day6 .rt-day-badge { background:#0a0f3d; } .day6 .day-num,.day6 .day-abbr { color:#9fa8da; }
+    .day7 .rt-day-badge { background:#152800; } .day7 .day-num,.day7 .day-abbr { color:#aed581; }
+  }
+</style>
+</head>
+<body>
+<div class="rt-wrap">
+  <div class="rt-header">
+    <div class="rt-header-label">Roteiro completo</div>
+    <div class="rt-header-title">Serra Gaúcha</div>
+    <div class="rt-header-sub">Gramado · Canela · Cascata · 7 dias de aventura</div>
+    <div class="rt-header-tags">
+      <span class="rt-tag">✈ Segunda → Domingo</span>
+      <span class="rt-tag">🍽 Almoço 12h · Jantar 20h</span>
+      <span class="rt-tag">🌿 2 pessoas</span>
+    </div>
+  </div>
+
+  <div class="rt-lock-bar" id="lock-bar">
+    <span id="lock-icon">🔒</span>
+    <span id="lock-msg">Restaurantes protegidos —</span>
+    <input type="password" id="lock-input" placeholder="senha..." onkeydown="if(event.key==='Enter')tryUnlock()" />
+    <button onclick="tryUnlock()">Revelar</button>
+    <span class="rt-lock-err" id="lock-err"></span>
+  </div>
+
+  <div id="days-container"></div>
+
+  <div class="rt-footer">
+    <div>
+      <div class="rt-footer-label">Gasto total estimado (x2)</div>
+      <div class="rt-footer-val">R$ 4.010</div>
+    </div>
+    <div style="text-align:right">
+      <div class="rt-footer-label">Reservados</div>
+      <div class="rt-footer-val" style="font-size:13px;font-weight:400;">Olivas · 1835 · St Gallen · Cara de Mau · Fumaça</div>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const SENHA = "serragaucha";
+let unlocked = false;
+
+function tryUnlock() {
+  const val = document.getElementById('lock-input').value;
+  const err = document.getElementById('lock-err');
+  if (val === SENHA) {
+    unlocked = true;
+    document.querySelectorAll('.rt-restaurant').forEach(el => {
+      el.classList.remove('locked');
+      el.classList.add('unlocked');
+    });
+    const bar = document.getElementById('lock-bar');
+    bar.classList.add('open-state');
+    document.getElementById('lock-icon').textContent = '🔓';
+    document.getElementById('lock-msg').textContent = 'Restaurantes revelados!';
+    document.getElementById('lock-input').style.display = 'none';
+    document.querySelector('#lock-bar button').style.display = 'none';
+    err.textContent = '';
+  } else {
+    err.textContent = 'senha incorreta';
+    document.getElementById('lock-input').value = '';
+  }
+}
+
+function wrapRestaurant(name) {
+  return `<span class="rt-restaurant locked" onclick="hintUnlock(this)">` +
+    `<span class="rt-rest-name">${name}</span>` +
+    `<span class="rt-rest-hidden" title="clique para desbloquear">🔒 ••••••</span>` +
+    `</span>`;
+}
+
+function hintUnlock(el) {
+  if (!unlocked) {
+    document.getElementById('lock-input').focus();
+  }
+}
+
+const RESTAURANTES = [
+  "Carne e Osso", "Irlandês", "IL Piacere", "O Maquinista",
+  "St Gallen", "Quintanilha", "Cara de Mau", "1835 Carne e Brasa",
+  "Chama de Fogo", "Récolte", "Olivas"
+];
+
+function protectEventName(name) {
+  let result = name;
+  RESTAURANTES.forEach(r => {
+    if (result.includes(r)) {
+      result = result.replace(r, wrapRestaurant(r));
+    }
+  });
+  return result;
+}
+
+const pillLabels = { meal:"Refeição", primeQr:"Prime / QR", reserved:"Reservado", free:"Sem reserva" };
+const pillClasses = { meal:"pill-meal", primeQr:"pill-prime-qr", reserved:"pill-reserved", free:"pill-free" };
+
+const days = [
+  {
+    n:1, abbr:"SEG", cls:"day1", name:"Chegada — São Paulo & Holanda",
+    events:[
+      { time:"13:50", name:"Almoço no aeroporto de SP", pills:["meal"], dot:"dot-lunch", subs:[] },
+      { time:"15:35", name:"Chegada em POA / Carro / Estrada", pills:[], dot:"dot-lunch", subs:[] },
+      { time:"17:20", name:"Chegada a Zandaam", pills:[], dot:"dot-activity", subs:[] },
+      { time:"18:20", name:"Chegada ao Hotel / Check-in", pills:[], dot:"dot-afternoon", subs:[] },
+      { time:"20:00", name:"Jantar em Carne e Osso", pills:["meal", "primeQr"], dot:"dot-dinner", subs:[] },
+    ]
+  },
+  {
+    n:2, abbr:"TER", cls:"day2", name:"Canela — Café, Passeio & Gastronomia",
+    events:[
+      { time:"09:00", name:"Café da manhã no Hotel", pills:["meal"], dot:"dot-morning", subs:[] },
+      { time:"10:00", name:"Conhecer Canela — centro histórico", pills:[], dot:"dot-activity",
+        subs:["Parque do Pinheiro Grosso","Catedral de Pedra","Largo da Fama","Praça João Corrêa","Rua Coberta"] },
+      { time:"12:00", name:"Almoço no Irlandês", pills:["meal","free"], dot:"dot-lunch", subs:[] },
+      { time:"14:30", name:"Olivas — experiência reservada", pills:["reserved","primeQr"], dot:"dot-afternoon", subs:[] },
+      { time:"21:00", name:"Jantar em IL Piacere", pills:["meal","free"], dot:"dot-dinner", subs:[] },
+    ]
+  },
+  {
+    n:3, abbr:"QUA", cls:"day3", name:"Vinícola, Space Adventure & Bondinho",
+    events:[
+      { time:"08:30", name:"Café da manhã no Hotel", pills:["meal"], dot:"dot-morning", subs:[] },
+      { time:"09:30", name:"Vinícola Jolimont — tour & degustação", pills:["primeQr"], dot:"dot-morning", subs:[] },
+      { time:"12:00", name:"Almoço em O Maquinista", pills:["meal","free"], dot:"dot-lunch", subs:[] },
+      { time:"14:30", name:"Space Adventure", pills:["primeQr"], dot:"dot-activity", subs:[] },
+      { time:"16:30", name:"Bondinho da Cascata", pills:[], dot:"dot-afternoon", subs:[] },
+      { time:"20:00", name:"Jantar em St Gallen", pills:["meal","reserved"], dot:"dot-dinner", subs:[] },
+    ]
+  },
+  {
+    n:4, abbr:"QUI", cls:"day4", name:"Gramado — Ensaio Fotográfico & Gastronomia",
+    events:[
+      { time:"08:30", name:"Café da manhã no Hotel", pills:["meal"], dot:"dot-morning", subs:[] },
+      { time:"09:30", name:"Ensaio fotográfico — Gramado", pills:["reserved"], dot:"dot-morning", subs:[] },
+      { time:"12:30", name:"Almoço em Quintanilha", pills:["meal","primeQr"], dot:"dot-lunch", subs:[] },
+      { time:"14:00", name:"Cristais de Gramado", pills:["primeQr"], dot:"dot-activity", subs:[] },
+      { time:"20:00", name:"Jantar em Cara de Mau", pills:["meal","reserved","primeQr"], dot:"dot-dinner", subs:[] },
+    ]
+  },
+  {
+    n:5, abbr:"SEX", cls:"day5", name:"Cascata, Pôr do Sol & Cinema",
+    events:[
+      { time:"09:30", name:"Café da manhã no Hotel", pills:["meal"], dot:"dot-morning", subs:[] },
+      { time:"12:00", name:"Almoço em 1835 Carne e Brasa", pills:["meal"], dot:"dot-lunch", subs:[] },
+      { time:"14:30", name:"Conhecer Gramado — centro & lojas", pills:[], dot:"dot-afternoon",
+        subs:["Rua Coberta de Gramado","Lago Negro","Mini Mundo","Hollywood Dream Cars","Rua Garibaldi"] },      
+      { time:"21:00", name:"Assistir Homem-Aranha", pills:[], dot:"dot-activity", subs:[] },
+    ]
+  },
+  {
+    n:6, abbr:"SÁB", cls:"day6", name:"Maria Fumaça & Parque do Caracol",
+    events:[
+      { time:"06:00", name:"Maria Fumaça — passeio reservado", pills:["reserved"], dot:"dot-activity", subs:[] },
+      { time:"12:30", name:"Almoço - passeio Maria Fumaça", pills:["meal"], dot:"dot-lunch", subs:[] },
+      { time:"19:30", name:"Chegada Hotel", pills:[], dot:"dot-afternoon", subs:[] },
+      { time:"21:00", name:"Jantar em Chama de Fogo", pills:["meal"], dot:"dot-dinner", subs:[] },
+    ]
+  },
+  {
+    n:7, abbr:"DOM", cls:"day7", name:"Partida — Récolte & Retorno a Goiânia",
+    events:[
+      { time:"09:00", name:"Manhã tranquila — preparar malas", pills:[], dot:"dot-morning", subs:[] },
+      { time:"09:30", name:"Café da manhã no Hotel", pills:["meal"], dot:"dot-morning", subs:[] },
+      { time:"12:00", name:"Almoço em Récolte", pills:["meal","primeQr"], dot:"dot-lunch", subs:[] },
+      { time:"14:30", name:"Lanche de despedida", pills:[], dot:"dot-afternoon", subs:[] },
+      { time:"15:00", name:"Transito ao aeroporto", pills:[], dot:"dot-activity", subs:[] },
+      { time:"18:00", name:"Chegada ao aeroporto POA (embarque 18:30)", pills:["meal"], dot:"dot-dinner", subs:[] },
+      { time:"22:00", name:"Jantar no aeroporto de SP — chegada", pills:["meal"], dot:"dot-dinner", subs:[] },
+      { time:"00:00", name:"Chegada a Goiânia", pills:[], dot:"dot-dinner", subs:[] },
+    ]
+  }
+];
+
+function parseTime(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+
+function formatInterval(mins) {
+  if (mins < 60) return `${mins}min`;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return m === 0 ? `${h}h` : `${h}h${m}min`;
+}
+
+function buildSubitems(subs, evIdx, dayIdx) {
+  if (!subs || subs.length === 0) return '';
+  const uid = `sub-${dayIdx}-${evIdx}`;
+  const items = subs.map(s => `<div class="rt-subitem">${s}</div>`).join('');
+  return `
+    <div class="rt-subitems">
+      <div class="rt-subitem-toggle" onclick="toggleSub('${uid}', this)">
+        <span class="sub-chevron">›</span> ${subs.length} pontos para visitar
+      </div>
+      <div class="rt-subitem-list" id="${uid}">${items}</div>
+    </div>`;
+}
+
+const container = document.getElementById('days-container');
+
+days.forEach((day, di) => {
+  const card = document.createElement('div');
+  card.className = `rt-day-card ${day.cls}`;
+
+  const header = document.createElement('div');
+  header.className = 'rt-day-header';
+  header.innerHTML = `
+    <div class="rt-day-badge">
+      <span class="day-num">${day.n}</span>
+      <span class="day-abbr">${day.abbr}</span>
+    </div>
+    <div class="rt-day-info">
+      <div class="rt-day-name">${day.name}</div>
+      <div class="rt-day-count">${day.events.length} atividades</div>
+    </div>
+    <span class="rt-chevron">›</span>`;
+
+  const eventsDiv = document.createElement('div');
+  eventsDiv.className = 'rt-events';
+
+  day.events.forEach((ev, ei) => {
+    const isLast = ei === day.events.length - 1;
+    const pillsHtml = ev.pills.map(p => `<span class="rt-pill ${pillClasses[p]}">${pillLabels[p]}</span>`).join('');
+    const subsHtml = buildSubitems(ev.subs, ei, di);
+
+    // Event row
+    const evRow = document.createElement('div');
+    evRow.className = 'rt-event';
+    evRow.innerHTML = `
+      <div class="rt-time-col"><div class="rt-time">${ev.time}</div></div>
+      <div class="rt-dot-col">
+        <div class="rt-dot ${ev.dot}"></div>
+      </div>
+      <div class="rt-event-info">
+        <div class="rt-event-name">${protectEventName(ev.name)}</div>
+        ${pillsHtml ? `<div class="rt-event-meta">${pillsHtml}</div>` : ''}
+        ${subsHtml}
+      </div>`;
+    eventsDiv.appendChild(evRow);
+
+    // Connector between events
+    if (!isLast) {
+      const nextTime = parseTime(day.events[ei + 1].time);
+      const curTime = parseTime(ev.time);
+      const diff = nextTime - curTime;
+      const label = diff > 0 ? formatInterval(diff) : '—';
+
+      const conn = document.createElement('div');
+      conn.className = 'rt-connector';
+      conn.innerHTML = `
+        <div class="rt-connector-time-col"></div>
+        <div class="rt-connector-dot-col">
+          <div class="rt-connector-line"></div>
+          <div class="rt-connector-line"></div>
+          <div class="rt-connector-line"></div>
+        </div>
+        <div class="rt-connector-mid">
+          <span class="rt-connector-badge">⏱ ${label}</span>
+        </div>`;
+      eventsDiv.appendChild(conn);
+    }
+  });
+
+  header.addEventListener('click', () => {
+    const chevron = header.querySelector('.rt-chevron');
+    const isOpen = eventsDiv.classList.contains('open');
+    eventsDiv.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+  });
+
+  if (day.n === 1) {
+    eventsDiv.classList.add('open');
+    header.querySelector('.rt-chevron').classList.add('open');
+  }
+
+  card.appendChild(header);
+  card.appendChild(eventsDiv);
+  container.appendChild(card);
+});
+
+function toggleSub(uid, el) {
+  const list = document.getElementById(uid);
+  const chev = el.querySelector('.sub-chevron');
+  const isOpen = list.classList.contains('open');
+  list.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+</script>
